@@ -3,72 +3,72 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Matchs;
+use App\Models\Score;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Récupérer la liste des matchs
     public function index()
     {
-        return response()->json(Game::all(), 200);
+        $matches = Matchs::all();
+        return response()->json($matches);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Créer un nouveau match
     public function store(Request $request)
     {
-        $game = Game::create([
-            'player_x' => $request->player_x,
-            'player_o' => $request->player_o,
+        $request->validate([
+            'player1' => 'required|string|max:255',
+            'player2' => 'required|string|max:255',
         ]);
-        return response()->json($game, 201);
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Game $game)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Game $game)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Game $game)
-    {
-        $game->update([
-            'board' => $request->board,
-            'current_player' => $request->current_player,
-            'winner' => $request->winner,
+        $match = Matchs::create([
+            'player1' => $request->input('player1'),
+            'player2' => $request->input('player2'),
+            'status' => 'in_progress',
         ]);
-        return response()->json($game, 200);
+
+        // $match = Matchs::create([
+        //     'player1' => 'Joueur 1', // Nom par défaut ou utilisateur authentifié
+        //     'player2' => 'Joueur 2',
+        //     'status' => 'in_progress',
+        // ]);
+
+        $score = Score::create([
+            'match_id' => $match->id,
+            'X_score' => 0, // Initialisation des scores
+            'O_score' => 0,
+        ]);
+        return response()->json(['match' => $match, 'score' => $score]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Game $game)
+    public function show($id)
     {
-        //
+        // Trouver le match avec son score associé
+        $match = Matchs::with('score')->find($id);
+
+        // Si le match n'est pas trouvé, retourner une réponse 404
+        if (!$match) {
+            return response()->json(['message' => 'Match not found'], 404);
+        }
+
+        // Retourner les informations du match et du score
+        return response()->json([
+            'match' => $match,
+            'score' => $match->score // Inclure le score associé au match
+        ]);
     }
+
+    public function showExistMatch($id)
+{
+    $match = Matchs::with('score')->find($id);
+
+    if (!$match) {
+        return response()->json(['message' => 'Match not found'], 404);
+    }
+
+    return response()->json($match);
+}
 }

@@ -7,18 +7,20 @@ import { Observable } from 'rxjs';
 })
 export class GameService {
 
-  private apiUrl = 'http://127.0.0.1:8000/api/games';
+  private apiUrl = 'http://localhost:8000/api/matches'; // URL de l'API Laravel
   constructor(private http: HttpClient) { }
 
-  createGame(data: any): Observable<any> {
-    return this.http.post(this.apiUrl, data);
-}
+  // Récupérer la liste des matchs
+  getMatches(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
 
-updateGame(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, data);
-}
+  // Créer un nouveau match
+  createNewMatch(matchData: { player1: string; player2: string }): Observable<any> {
+    return this.http.post<any>(this.apiUrl, matchData);
+  }
 
-getGames(): Observable<any> {
-    return this.http.get(this.apiUrl);
-}
+  getMatchById(matchId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${matchId}`);
+  }
 }

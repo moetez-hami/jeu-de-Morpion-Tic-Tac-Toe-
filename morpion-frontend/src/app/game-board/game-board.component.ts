@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { GameService } from '../Services/game.service';
 import { ScoreService } from '../Services/score.service';
 import { Score } from '../Commons/score.interface';
+import { ActivatedRoute } from '@angular/router';
+import { Match } from '../Commons/match.interface';
 
 @Component({
   selector: 'app-game-board',
@@ -11,28 +13,34 @@ import { Score } from '../Commons/score.interface';
 })
 export class GameBoardComponent implements OnInit {
 
+  matchId!: number;
+  //score: any;
+  errorMessage: string | null = null;
   board: string[] = Array(9).fill(null);
   currentPlayer: 'X' | 'O' = 'X'; // Joueur actuel
-  winner: 'X' | 'O' | null = null; // Gagnant actuel
-  scores: Score = { X_score: 0, O_score: 0 }; // Initialisation avec des valeurs par défaut
+  winner: string | null = null; // Gagnant actuel
+  scores!: Score ; // Initialisation avec des valeurs par défaut
+  match!: Match ;
 
 
-  constructor(private scoreService: ScoreService) { }
+  constructor(private scoreService: ScoreService,private gameService: GameService,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // Récupérer les scores lors de l'initialisation du composant
-    this.scoreService.getScores().subscribe(
-      (score) => {
-        // S'assurer que les scores ne sont pas null ou undefined avant de les affecter
-        this.scores = score ? score : { X_score: 0, O_score: 0 };
-        console.log(this.scores);
+    this.matchId = +this.route.snapshot.paramMap.get('matchId')!;
+    this.loadMatch();
+  }
+
+  loadMatch(): void {
+    this.gameService.getMatchById(this.matchId).subscribe({
+      next: (data) => {
+        this.scores = data.score;
+        this.match=data.match;
+        console.log('Match loaded:', this.scores);
+        console.log('Match loaded:', this.match);
       },
-      (error) => {
-        console.error('Erreur lors de la récupération des scores:', error);
-        // Si une erreur se produit, on initialise les scores avec des valeurs par défaut
-        this.scores = { X_score: 0, O_score: 0 };
-      }
-    );
+      error: (error) => console.error('Error loading match:', error)
+    });
   }
 
   makeMove(index: number): void {
@@ -41,16 +49,16 @@ export class GameBoardComponent implements OnInit {
       this.winner = this.checkWinner();
 
       if (this.winner) {
-        this.scores[`${this.winner}_score`] += 1; // Correctement indexé
-        this.scoreService.updateScores(this.scores.X_score, this.scores.O_score).subscribe();
+        const key = `${this.winner}_score` as keyof Score;
+        this.scores[key] += 1; // Correctement indexé
+        this.scoreService.updateScores(this.matchId,this.scores.X_score, this.scores.O_score).subscribe();
       } else {
         this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X'; // Changer de joueur
       }
     }
   }
 
-
-  checkWinner(): 'X' | 'O' | null {
+  checkWinner() {
     const winningCombinations = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8], // Lignes
       [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colonnes
@@ -67,7 +75,10 @@ export class GameBoardComponent implements OnInit {
 
       // Vérifie si tous les trois sont identiques et non nuls
       if (valueA && valueA === valueB && valueA === valueC) {
-        return valueA; // Retourner le gagnant (X ou O)
+        this.winner = this.board[a] === 'X' ? this.match.player1 : this.match.player2;
+        // console.log("heellllooo"+this.winner);
+        // console.log(valueA);
+        return this.winner; // Retourner le gagnant (X ou O)
       }
     }
 

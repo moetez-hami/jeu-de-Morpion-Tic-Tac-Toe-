@@ -17,17 +17,17 @@ export class ScoreService {
   constructor(private http: HttpClient) { }
 
    // Récupérer les scores
-   getScores(): Observable<Score> {
-    return this.http.get<Score>(this.apiUrl);
+   getScoreByMatchId(matchId: number): Observable<Score> {
+    return this.http.get<Score>(`this.apiUrl/${matchId}`);
   }
 
   // Mettre à jour les scores
-  updateScores(X_score: number, O_score: number): Observable<Score> {
+  updateScores(matchId: number,X_score: number, O_score: number): Observable<Score> {
     // Si les scores sont null ou undefined, initialise-les à 0
     const payload = {
       X_score: X_score || 0,  // Si X_score est null ou undefined, met 0
       O_score: O_score || 0   // Si O_score est null ou undefined, met 0
     };
-    return this.http.post<Score>(this.apiUrl, payload);
+    return this.http.post<Score>(`http://localhost:8000/api/scores/${matchId}`,payload);
   }
 }

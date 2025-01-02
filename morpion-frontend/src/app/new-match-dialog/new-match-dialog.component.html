@@ -1,0 +1,20 @@
+<mat-dialog-content>
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Player X</mat-label>
+      <input matInput [(ngModel)]="playerX" name="playerX" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Player O</mat-label>
+      <input matInput [(ngModel)]="playerO" name="playerO" required />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onConfirm()" [disabled]="!playerX || !playerO">
+    Start Match
+  </button>
+</mat-dialog-actions>

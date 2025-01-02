@@ -1,0 +1,15 @@
+<div class="home-container">
+  <h1>Bienvenue sur le jeu Morpion</h1>
+
+  <div class="match-list">
+    <h2>Liste des matchs en cours</h2>
+    <ul>
+      <li *ngFor="let match of matches" (click)="joinMatch(match.id)">
+        Match {{ match.id }} - Joueur 1: {{ match.player1 }} VS Joueur 2: {{ match.player2 }}
+        <span *ngIf="match.status === 'in_progress'">(En cours)</span>
+        <span *ngIf="match.status === 'completed'">(Terminé)</span>
+      </li>
+    </ul>
+    <button (click)="openNewMatchDialog()">Démarrer un nouveau match</button>
+  </div>
+</div>

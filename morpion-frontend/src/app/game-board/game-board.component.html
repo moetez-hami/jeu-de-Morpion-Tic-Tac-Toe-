@@ -2,13 +2,13 @@
   <!-- Section des scores -->
   <div class="scores">
     <p>Score :</p>
-    <div class="score-board">
+    <div class="score-board" *ngIf="scores">
       <div class="score-box" [class.winner]="scores.X_score > scores.O_score">
-        <div class="score-label">Joueur X</div>
+        <div class="score-label">{{ match.player1 }}</div>
         <div class="score-value">{{ scores.X_score }}</div>
       </div>
       <div class="score-box" [class.winner]="scores.O_score > scores.X_score">
-        <div class="score-label">Joueur O</div>
+        <div class="score-label">{{ match.player2 }}</div>
         <div class="score-value">{{ scores.O_score }}</div>
       </div>
     </div>
@@ -26,7 +26,7 @@
   <!-- Pop-up message de victoire -->
   <div *ngIf="winner" class="winner-popup">
     <div class="popup-content">
-      <p>🎉 Joueur {{ winner }} a gagné ! 🎉</p>
+      <p>🎉 {{ winner | uppercase }} a gagné ! 🎉</p>
       <button (click)="restartGame()">Rejouer</button>
     </div>
   </div>

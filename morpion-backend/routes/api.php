@@ -20,6 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('games', GameController::class);
-Route::get('/scores', [ScoreController::class, 'getScores']);
-Route::post('/scores', [ScoreController::class, 'updateScores']);
+Route::get('/matches', [GameController::class, 'index']);
+Route::post('/matches', [GameController::class, 'store']);
+Route::get('/matches/{id}', [GameController::class, 'show']);
+Route::get('/matchesExist/{id}', [GameController::class, 'showExistMatch']);
+Route::get('/scores/{id}', [ScoreController::class, 'getScoresById']);
+Route::post('/scores/{id}', [ScoreController::class, 'updateScoresById']);

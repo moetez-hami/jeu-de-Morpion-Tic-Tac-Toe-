@@ -13,5 +13,11 @@ class Score extends Model
     protected $table = 'scores';
 
     // Colonnes qui peuvent être assignées en masse
-    protected $fillable = ['X_score', 'O_score'];
+    protected $fillable = [ 'match_id','X_score', 'O_score'];
+
+    // Relation avec le modèle Match
+    public function match()
+    {
+        return $this->belongsTo(Matchs::class);
+    }
 }
