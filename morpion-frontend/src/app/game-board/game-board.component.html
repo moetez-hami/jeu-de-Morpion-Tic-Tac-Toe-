@@ -7,6 +7,10 @@
         <div class="score-label">{{ match.player1 }} <small>(X)</small></div>
         <div class="score-value">{{ scores.X_score }}</div>
       </div>
+      <div class="score-box" [class.winner]="scores.X_score == scores.O_score">
+        <div class="score-label">Draws </div>
+        <div class="score-value">{{ scores.draws }}</div>
+      </div>
       <div class="score-box" [class.winner]="scores.O_score > scores.X_score">
         <div class="score-label">{{ match.player2 }} <small>(O)</small></div>
         <div class="score-value">{{ scores.O_score }}</div>
@@ -37,6 +41,7 @@
       </div>
     </div>
   </div>
+  <button routerLink="/">Retour à la liste des matchs</button>
 
   <!-- Pop-up message de victoire ou match nul -->
   <div *ngIf="winner || isDraw" class="winner-popup">

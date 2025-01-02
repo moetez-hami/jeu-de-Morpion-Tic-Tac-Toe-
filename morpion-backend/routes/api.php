@@ -26,5 +26,5 @@ Route::post('/matches', [GameController::class, 'store']);
 Route::get('/matches/{id}', [GameController::class, 'show']);
 Route::get('/matchesExist/{id}', [GameController::class, 'showExistMatch']);
 Route::patch('/matches/soft-delete/{id}', [GameController::class, 'softDelete']);
-Route::get('/scores/{id}', [ScoreController::class, 'getScoresById']);
+//Route::get('/scores/{id}', [ScoreController::class, 'getScoresById']);
 Route::post('/scores/{id}', [ScoreController::class, 'updateScoresById']);

@@ -36,12 +36,14 @@ class ScoreController extends Controller
             // Si aucun score n'existe encore, on crée un nouveau record
             $score = Score::create([
                 'X_score' => 0,
-                'O_score' => 0
+                'O_score' => 0,
+                'draws' => 0,
             ]);
         }
 
         $score->X_score = $request->X_score;
         $score->O_score = $request->O_score;
+        $score->draws = $request->draws;
         $score->save();
 
         return response()->json($score);

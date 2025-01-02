@@ -19,7 +19,7 @@ export class GameBoardComponent implements OnInit {
   board: (string | null)[] = Array(9).fill(null);
   currentPlayer: 'X' | 'O' = 'X'; // Joueur actuel
   winner: string | null = null; // Gagnant actuel
-  scores: Score = { X_score: 0, O_score: 0 }; // Initialisation avec des valeurs par défaut
+  scores: Score = { X_score: 0, O_score: 0 ,draws: 0 }; // Initialisation avec des valeurs par défaut
   match!: Match ;
   isDraw: boolean = false; // Indique si le match est nul
 
@@ -59,14 +59,19 @@ export class GameBoardComponent implements OnInit {
         if(this.match){
           if (this.winner === this.match.player1) {
             this.scores.X_score += 1;
-          } else (this.winner === this.match.player2)
+          } else  (this.winner === this.match.player2)
             this.scores.O_score += 1;
         }
 
-        this.scoreService.updateScores(this.matchId,this.scores.X_score, this.scores.O_score).subscribe();
+        this.scoreService.updateScores(this.matchId,this.scores.X_score, this.scores.O_score,this.scores.draws).subscribe();
       } else if (this.checkDraw()) {
         console.log("heeellooooo");
         // Si le match est nul
+        this.scores.draws+= 1;
+        //console.log("zauidzauihdzauidha"+this.scores.draws);
+        //console.log("zauidzauihdzauidha"+this.scores.X_score);
+        //console.log("zauidzauihdzauidha"+this.scores.O_score);
+        this.scoreService.updateScores(this.matchId,this.scores.X_score, this.scores.O_score,this.scores.draws).subscribe();
         this.isDraw = true;
         //this.showPopup();
       } else {

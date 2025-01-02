@@ -8,11 +8,14 @@ body {
   background-color: #f0f0f0; /* Couleur de fond */
 }
 
-// .game-container {
-//   position: relative;
-//   top: 20px; /* Décalage vers le bas */
-//   text-align: center;
-// }
+.game-container {
+  // position: relative;
+  // top: 20px; /* Décalage vers le bas */
+  // text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .scores {
   margin-bottom: 20px;
@@ -155,6 +158,20 @@ body {
 
 .popup-content button:hover {
   background-color: #218838; /* Couleur légèrement plus foncée au survol */
+}
+
+button {
+  margin-top: 2rem;
+  padding: 10px 20px;
+  background-color: #9c9c9c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3CB371;
 }
 
 /* Animation d'apparition */
