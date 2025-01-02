@@ -23,4 +23,8 @@ export class GameService {
   getMatchById(matchId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${matchId}`);
   }
+
+  softDeleteMatch(matchId: number): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/soft-delete/${matchId}`, {});
+  }
 }

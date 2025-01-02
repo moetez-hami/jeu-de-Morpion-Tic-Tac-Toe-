@@ -4,10 +4,13 @@
   <div class="match-list">
     <h2>Liste des matchs en cours</h2>
     <ul>
-      <li *ngFor="let match of matches" (click)="joinMatch(match.id)">
-        Match {{ match.id }} - Joueur 1: {{ match.player1 }} VS Joueur 2: {{ match.player2 }}
+      <li *ngFor="let match of matches" (click)="joinMatch(match.id)" [class.removed]="match.isRemoving">
+        Match {{ match.id }} - Joueur 1 <small class="small">(X)</small> : {{ match.player1 }} VS Joueur 2 <small class="small">(O)</small> : {{ match.player2 }}
         <span *ngIf="match.status === 'in_progress'">(En cours)</span>
         <span *ngIf="match.status === 'completed'">(Terminé)</span>
+        <button (click)="deleteMatch(match.id); $event.stopPropagation()" (mouseover)="$event.stopPropagation()" class="delete-btn">
+          ❌
+        </button>
       </li>
     </ul>
     <button (click)="openNewMatchDialog()">Démarrer un nouveau match</button>

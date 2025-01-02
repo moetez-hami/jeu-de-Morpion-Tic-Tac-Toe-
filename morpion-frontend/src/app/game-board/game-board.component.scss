@@ -8,11 +8,11 @@ body {
   background-color: #f0f0f0; /* Couleur de fond */
 }
 
-.game-container {
-  position: relative;
-  top: 20px; /* Décalage vers le bas */
-  text-align: center;
-}
+// .game-container {
+//   position: relative;
+//   top: 20px; /* Décalage vers le bas */
+//   text-align: center;
+// }
 
 .scores {
   margin-bottom: 20px;
@@ -57,6 +57,33 @@ body {
   transform: scale(1.05); /* Agrandir légèrement lors du survol */
   cursor: pointer;
 }
+
+.Grillebox{
+  display: grid;
+  grid-template-columns: 1fr;  /* Crée une colonne unique */
+  grid-template-rows: auto 1fr; /* Une ligne pour le message, une autre pour la grille */
+
+  justify-items: center;  /* Centre les éléments dans la grille */
+
+}
+
+.turn-message {
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 10;
+  display: flex;
+  align-items: center;  /* Centrer verticalement le texte */
+}
+
+.left-turn {
+  justify-self: start;  /* Aligne à gauche dans le conteneur */
+}
+
+.right-turn {
+  justify-self: end;  /* Aligne à droite dans le conteneur */
+}
+
+
 
 .board {
   display: grid;

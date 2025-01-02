@@ -16,11 +16,12 @@ export class GameBoardComponent implements OnInit {
   matchId!: number;
   //score: any;
   errorMessage: string | null = null;
-  board: string[] = Array(9).fill(null);
+  board: (string | null)[] = Array(9).fill(null);
   currentPlayer: 'X' | 'O' = 'X'; // Joueur actuel
   winner: string | null = null; // Gagnant actuel
-  scores!: Score ; // Initialisation avec des valeurs par défaut
+  scores: Score = { X_score: 0, O_score: 0 }; // Initialisation avec des valeurs par défaut
   match!: Match ;
+  isDraw: boolean = false; // Indique si le match est nul
 
 
   constructor(private scoreService: ScoreService,private gameService: GameService,
@@ -48,10 +49,26 @@ export class GameBoardComponent implements OnInit {
       this.board[index] = this.currentPlayer;
       this.winner = this.checkWinner();
 
+
       if (this.winner) {
-        const key = `${this.winner}_score` as keyof Score;
-        this.scores[key] += 1; // Correctement indexé
+        // const key = `${this.winner}` as keyof Score;
+        // console.log(key);
+        // console.log("first"+this.scores);
+        // this.scores[key] += 1; // Correctement indexé
+        // console.log("second"+this.scores);
+        if(this.match){
+          if (this.winner === this.match.player1) {
+            this.scores.X_score += 1;
+          } else (this.winner === this.match.player2)
+            this.scores.O_score += 1;
+        }
+
         this.scoreService.updateScores(this.matchId,this.scores.X_score, this.scores.O_score).subscribe();
+      } else if (this.checkDraw()) {
+        console.log("heeellooooo");
+        // Si le match est nul
+        this.isDraw = true;
+        //this.showPopup();
       } else {
         this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X'; // Changer de joueur
       }
@@ -77,7 +94,7 @@ export class GameBoardComponent implements OnInit {
       if (valueA && valueA === valueB && valueA === valueC) {
         this.winner = this.board[a] === 'X' ? this.match.player1 : this.match.player2;
         // console.log("heellllooo"+this.winner);
-        // console.log(valueA);
+         console.log(valueA);
         return this.winner; // Retourner le gagnant (X ou O)
       }
     }
@@ -85,9 +102,23 @@ export class GameBoardComponent implements OnInit {
     return null; // Aucun gagnant
   }
 
+  checkDraw(): boolean {
+    return !this.board.includes(null); // Si aucune cellule n'est vide, c'est un match nul
+  }
+
+  // showPopup() {
+  //   // Logique pour afficher le message de victoire ou match nul
+  //   if (this.winner) {
+  //     alert(`${this.winner} a gagné !`);
+  //   } else if (this.isDraw) {
+  //     alert('Le match est nul!');
+  //   }
+  // }
+
   restartGame(): void {
     this.board = Array(9).fill(null); // Réinitialiser la grille
     this.winner = null; // Réinitialiser le gagnant
+    this.isDraw = false;
   }
 
 }

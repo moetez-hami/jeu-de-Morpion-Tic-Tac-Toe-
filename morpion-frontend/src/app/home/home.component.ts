@@ -70,4 +70,20 @@ export class HomeComponent implements OnInit{
     this.router.navigate(['/game', matchId]);
     console.log('Rejoindre le match:', matchId);
   }
+
+  deleteMatch(matchId: number): void {
+
+    this.gameService.softDeleteMatch(matchId).subscribe(() => {
+      const matchIndex = this.matches.findIndex((match) => match.id === matchId);
+      if (matchIndex !== -1) {
+        // Ajouter une propriété temporaire pour activer l'animation
+        this.matches[matchIndex].isRemoving = true;
+
+        // Attendre la fin de l'animation (500ms) avant de supprimer
+        setTimeout(() => {
+          this.matches = this.matches.filter((match) => match.id !== matchId);
+        }, 500); // Durée identique à celle définie dans le CSS
+      }
+    });
+  }
 }

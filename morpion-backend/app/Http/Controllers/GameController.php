@@ -12,7 +12,7 @@ class GameController extends Controller
     // Récupérer la liste des matchs
     public function index()
     {
-        $matches = Matchs::all();
+        $matches = Matchs::where('deleted', 0)->get();
         return response()->json($matches);
     }
 
@@ -71,4 +71,13 @@ class GameController extends Controller
 
     return response()->json($match);
 }
+
+public function softDelete($id)
+    {
+        $match = Matchs::findOrFail($id);
+        $match->deleted = 1;
+        $match->save();
+
+        return response()->json(['message' => 'Match marked as deleted.']);
+    }
 }

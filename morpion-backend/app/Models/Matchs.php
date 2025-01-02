@@ -13,6 +13,7 @@ class Matchs extends Model
         'player1',
         'player2',
         'status',
+        'deleted'
     ];
 
     // Relation avec le modèle Score
