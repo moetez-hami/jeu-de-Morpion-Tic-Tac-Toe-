@@ -12,7 +12,7 @@ class GameController extends Controller
     // Récupérer la liste des matchs
     public function index()
     {
-        $matches = Matchs::where('deleted', 0)->get();
+        $matches = Matchs::with('score')->where('deleted', 0)->get();
         return response()->json($matches);
     }
 
@@ -30,15 +30,10 @@ class GameController extends Controller
             'status' => 'in_progress',
         ]);
 
-        // $match = Matchs::create([
-        //     'player1' => 'Joueur 1', // Nom par défaut ou utilisateur authentifié
-        //     'player2' => 'Joueur 2',
-        //     'status' => 'in_progress',
-        // ]);
 
         $score = Score::create([
             'match_id' => $match->id,
-            'X_score' => 0, // Initialisation des scores
+            'X_score' => 0,
             'O_score' => 0,
         ]);
         return response()->json(['match' => $match, 'score' => $score]);
@@ -49,7 +44,6 @@ class GameController extends Controller
         // Trouver le match avec son score associé
         $match = Matchs::with('score')->find($id);
 
-        // Si le match n'est pas trouvé, retourner une réponse 404
         if (!$match) {
             return response()->json(['message' => 'Match not found'], 404);
         }

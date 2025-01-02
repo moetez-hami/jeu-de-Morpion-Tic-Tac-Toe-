@@ -15,14 +15,6 @@ class ScoreController extends Controller
         if (!$score) {
         // Si aucun score n'existe pour ce match, on retourne une réponse 404 ou on crée un score par défaut
         return response()->json(['message' => 'Score not found for the given match'], 404);
-
-        // $score = Score::first();  // Vous pouvez aussi récupérer les scores par d'autres méthodes, selon la structure
-        // if (!$score) {
-        //     // Si les scores n'existent pas, on les initialise avec 0
-        //     $score = Score::create([
-        //         'X_score' => 0,
-        //         'O_score' => 0
-        //     ]);
         }
         return response()->json($score);
     }

@@ -5,9 +5,9 @@
     <h2>Liste des matchs en cours</h2>
     <ul>
       <li *ngFor="let match of matches" (click)="joinMatch(match.id)" [class.removed]="match.isRemoving">
-        Match {{ match.id }} - Joueur 1 <small class="small">(X)</small> : {{ match.player1 }} VS Joueur 2 <small class="small">(O)</small> : {{ match.player2 }}
-        <span *ngIf="match.status === 'in_progress'">(En cours)</span>
-        <span *ngIf="match.status === 'completed'">(Terminé)</span>
+        Match {{ match.id }} - &nbsp; <strong>{{ match.player1 }}</strong>&nbsp;<small class="small">(X)</small>&nbsp; <strong>{{ match.score.X_score }}</strong> &nbsp; VS &nbsp; <strong>{{ match.score.O_score }}</strong> &nbsp; <small class="small">(O)</small>&nbsp;<strong>{{ match.player2 }}</strong>
+        <!-- <span *ngIf="match.status === 'in_progress'">(En cours)</span>
+        <span *ngIf="match.status === 'completed'">(Terminé)</span> -->
         <button (click)="deleteMatch(match.id); $event.stopPropagation()" (mouseover)="$event.stopPropagation()" class="delete-btn">
           ❌
         </button>

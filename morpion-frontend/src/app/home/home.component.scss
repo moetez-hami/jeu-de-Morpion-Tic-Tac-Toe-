@@ -9,12 +9,12 @@
 }
 
 .match-list li {
-  position: relative; /* Nécessaire pour positionner correctement le bouton */
-  display: flex; /* Utiliser flexbox pour aligner les éléments horizontalement */
-  justify-content: center; /* Centrer le contenu (texte) horizontalement */
-  align-items: center; /* Centrer les éléments verticalement */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
-  padding-right: 30px; /* Espace pour le bouton à droite */
+  padding-right: 30px;
   margin: 5px;
   background-color: #f2f2f2;
   cursor: pointer;
@@ -27,9 +27,8 @@
 }
 
 .match-list li:hover > .delete-btn:hover {
-  background-color: rgba(0, 0, 0, 0.3); /* Plus sombre au survol */
-  transform: scale(1.1); /* Effet de grossissement */
-  // background-color: transparent; /* Supprime l'effet de hover sur le parent */
+  background-color: rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
 }
 
 button {
@@ -46,16 +45,16 @@ button:hover {
 }
 
 li .delete-btn {
-  margin-left: auto; /* Pousse le bouton vers la droite */
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 20px;
   //height: 20px;
-  background-color: rgba(0, 0, 0, 0.1); /* Transparent sombre par défaut */
+  background-color: rgba(0, 0, 0, 0.1);
   color: white;
   border: none;
-  border-radius: 50%; /* Bouton circulaire */
+  border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -65,12 +64,12 @@ li .delete-btn {
 }
 
 .delete-btn:hover {
-  background-color: rgba(0, 0, 0, 0.3); /* Plus sombre au survol */
-  transform: scale(1.1); /* Effet de grossissement */
+  background-color: rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
 }
 
 .delete-btn:focus {
-  outline: none; /* Supprime le contour par défaut au focus */
+  outline: none;
 }
 
 li.removed {
